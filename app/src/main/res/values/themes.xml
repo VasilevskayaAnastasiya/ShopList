@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="Theme.ShopList" parent="Theme.MaterialComponents.Light.NoActionBar" />
+
+    <style name="Widget.MaterialComponents.Button.MyButton">
+        <item name="backgroundTint">@color/primary_200</item>
+        <item name="cornerRadius">40dp</item>
+    </style>
+</resources>
