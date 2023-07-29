@@ -80,6 +80,12 @@ class AddItemFragment : Fragment() {
             takePhotoImageView.setOnClickListener{
                 getImageFromGallery()
             }
+            imageItemButton.setOnClickListener{
+                setImageItemState()
+            }
+            textItemButton.setOnClickListener{
+                setTextItemState()
+            }
         }
         viewModel.lastImageUriData.value = null
         viewModel.lastImageUriData.observe(viewLifecycleOwner){ imageUri ->
@@ -114,9 +120,24 @@ class AddItemFragment : Fragment() {
             }
         }
     }
+
+    fun setImageItemState(){
+        with(binding){
+            takePhotoImageView.visibility = View.VISIBLE
+            takePhotoTextView.visibility = View.VISIBLE
+            descriptionEditText.visibility = View.GONE
+        }
+    }
+
+    fun setTextItemState(){
+        with(binding){
+            takePhotoImageView.visibility = View.GONE
+            takePhotoTextView.visibility = View.GONE
+            descriptionEditText.visibility = View.VISIBLE
+        }
+    }
     override fun onDestroy() {
         super.onDestroy()
         _binding = null
     }
-
 }
