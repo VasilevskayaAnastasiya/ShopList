@@ -4,7 +4,7 @@ import com.example.shoplist.data.ShoppingItem
 
 class ShoppingItemRepositoryImpl(
     val database: ArrayList<ShoppingItem>
-): ShoppingItemRepository {
+) : ShoppingItemRepository {
     override fun addItem(itemToAdd: ShoppingItem) {
         database.add(itemToAdd)
     }
@@ -16,24 +16,19 @@ class ShoppingItemRepositoryImpl(
     }
 
     override fun updateItem(itemToUpdate: ShoppingItem) {
-        val item = database.find {
-            it.id == itemToUpdate.id
-        }
-        if(item != null){
-            val itemIndex = database.indexOfFirst { it.id == itemToUpdate.id }
-            if(itemIndex != -1){
-                if(itemToUpdate.amount > 0){
-                    database[itemIndex] = itemToUpdate
-                }else{
-                    removeItem(itemToUpdate)
-                }
+        val itemIndex = database.indexOfFirst { it.id == itemToUpdate.id }
+        if (itemIndex != -1) {
+            if (itemToUpdate.amount > 0) {
+                database[itemIndex] = itemToUpdate
+            } else {
+                removeItem(itemToUpdate)
             }
         }
     }
 
     override fun removeItem(itemToRemove: ShoppingItem) {
         val itemIndex = database.indexOfFirst { it.id == itemToRemove.id }
-        if(itemIndex != -1){
+        if (itemIndex != -1) {
             database.removeAt(itemIndex)
         }
     }
