@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.shoplist.data.ShoppingItem
 import com.example.shoplist.databinding.ImageShoppingListItemBinding
 import com.example.shoplist.databinding.TextShoppingListItemBinding
+import com.example.shoplist.utils.getViewType
 
 class ItemsListAdapter(
     val list: ArrayList<ShoppingItem>
