@@ -1,18 +1,23 @@
 package com.example.shoplist.adapters
 
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.example.shoplist.data.ShoppingItem
 import com.example.shoplist.databinding.ImageShoppingListItemBinding
 import com.example.shoplist.databinding.TextShoppingListItemBinding
 import com.example.shoplist.utils.getViewType
 
 class ItemsListAdapter(
-    val list: ArrayList<ShoppingItem>
+    val context: Context,
+    var list: List<ShoppingItem>,
+    val increaseItemAmountInStorage: (ShoppingItem) -> Unit,
+    val decreaseItemAmountInStorage: (ShoppingItem) -> Unit
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-    class ImageItemViewHolder(val binding: ImageShoppingListItemBinding) :
+    inner class ImageItemViewHolder(val binding: ImageShoppingListItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(shoppingItem: ShoppingItem) {
             with(binding)
@@ -20,14 +25,26 @@ class ItemsListAdapter(
                 titleTextView.text = shoppingItem.title
                 amountTextView.text = shoppingItem.amount.toString()
                 contentTextView.text = shoppingItem.description
-                shoppingItem.image?.let {
-                    goodImageView.setImageResource(it)
+                increaseButton.setOnClickListener{
+                    increaseItemAmountInStorage(shoppingItem.copy(
+                        amount = shoppingItem.amount +1
+                    ))
+                }
+                decreaseButton.setOnClickListener{
+                    decreaseItemAmountInStorage(shoppingItem.copy(
+                        amount = shoppingItem.amount -1
+                    ))
+                }
+                shoppingItem.image?.let {imageUri ->
+                    Glide.with(context)
+                        .load(imageUri)
+                        .into(goodImageView)
                 }
             }
         }
     }
 
-    class TextItemViewHolder(val binding: TextShoppingListItemBinding) :
+    inner class TextItemViewHolder(val binding: TextShoppingListItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(shoppingItem: ShoppingItem) {
             with(binding)
@@ -35,6 +52,16 @@ class ItemsListAdapter(
                 titleTextView.text = shoppingItem.title
                 amountTextView.text = shoppingItem.amount.toString()
                 contentTextView.text = shoppingItem.description
+                increaseButton.setOnClickListener{
+                    increaseItemAmountInStorage(shoppingItem.copy(
+                        amount = shoppingItem.amount +1
+                    ))
+                }
+                decreaseButton.setOnClickListener{
+                    decreaseItemAmountInStorage(shoppingItem.copy(
+                        amount = shoppingItem.amount -1
+                    ))
+                }
             }
         }
     }
@@ -71,6 +98,11 @@ class ItemsListAdapter(
         } else {
             (holder as TextItemViewHolder).bind(list[position])
         }
+    }
+
+    fun setNewDataset(list: List<ShoppingItem>){
+        this.list = list
+        notifyDataSetChanged()
     }
 
     companion object {
